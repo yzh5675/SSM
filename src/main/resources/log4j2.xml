@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status用于设置log4j2自身内部的信息输出，
+可以不设置，当设置成trace时，可以看到log4j2内部各种详细输出-->
+<configuration status="INFO">
+    <!--先定义所有的appender-->
+    <appenders>
+        <!--输出日志信息到控制台-->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--控制日志输出的格式-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </console>
+    <!-- 
+    <RollingFile name="RollingFileInfo" fileName="${sys:user.home}/logs/info.log"
+                      filePattern="${sys:user.home}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+             控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）     
+              <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+              <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+              <Policies>
+                  <TimeBasedTriggeringPolicy/>
+                  <SizeBasedTriggeringPolicy size="100 MB"/>
+              </Policies>
+    </RollingFile>
+     -->
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <!--root：用于指定项目的根日志，如果没有单独指定Logger，则会使用root作为默认的日志输出-->
+    <loggers>
+    <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+          <logger name="org.springframework" level="INFO"></logger>
+         <!--  <logger name="org.mybatis" level="INFO"></logger> -->
+        <root level="debug">
+            <appender-ref ref="Console"/>
+            <!-- <appender-ref ref="RollingFileInfo"/> -->
+        </root>
+    </loggers>
+</configuration>
+
